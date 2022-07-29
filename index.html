@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <style>
+
+#container{
+    border: 1px solid red;
+    display: flex;
+}
+#input,#output{
+   height: 300px; 
+border:1px solid black;
+flex: 1;
+margin:5%
+}
+#input_text{
+    width: 90%;
+    height: 250px;
+}
+#inp_long{
+   width: 30%;
+}
+#button{
+   width: 30%;
+}
+#out_long{
+   width: 30%;
+}
+
+   </style>
+
+
+</head>
+<body>
+  
+    <div id="container">
+<div id="input">
+<select  name="inp_long"id="inp_long">
+   <option value="en">English</option> 
+   <option  value="hi">Hindi</option>
+</select>
+<button id="button" onclick="Translate()">Translate</button>
+<textarea  name="input_text" id="input_text" placeholder="Enter Text"></textarea>
+
+</div>
+<div id="output">
+    
+    <select  name="inp_long"id="out_long">
+        <option value="en">English</option> 
+        <option  value="hi">Hindi</option>
+     </select>
+     <p id="ans"></p>
+</div>
+</div>
+
+
+
+</body>
+</html>
+<script>
+
+function read(id){
+   return document.getElementById(id).value ;
+}
+
+ async function Translate(){
+
+  try{
+const input=read("input_text")
+console.log(input)
+const input_long=read("inp_long")
+console.log(input_long)
+const output_long=read("out_long")
+console.log(output_long)
+const res=await fetch("https://libretranslate.de/translate",{
+
+method:"POST",
+body:JSON.stringify({
+q:input,
+source:input_long,
+target:output_long,
+ format:"text",
+}),
+headers:{"Content-Type":"application/json",}
+
+})
+const {translatedText}=await res.json();
+// console.log(a)
+
+ document.getElementById("ans").innerText=translatedText;
+
+  }catch(err){
+     console.log(err)
+  }  
+
+
+
+
+
+
+}
+
+
+</script>
